@@ -1,0 +1,45 @@
+---
+title: "captcha-new"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, echo=T, results='hide', error=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, tidy.opts = list(width.cutoff = 60), tidy = TRUE)
+
+library(Sleuth3) # example datasets from textbook, "The Statistical Sleuth - A Course in 
+# Methods of Data Analysis (3rd Edition)"
+library(reshape2) # for formatting and aggregation of data frames
+library(ggplot2) # for creating graphs
+library(dplyr) # for data manipulation and clean-up
+library(plotly) # for creating interactive web graphics from ggplot2 graphs
+library(knitr) # required for generating PDF output
+library(modeest) # required for `mfv()` function
+#install.packages('nortest')
+library(nortest)
+```
+
+time
+
+```{r}
+alltime <- read.csv("all-time.csv")
+summary(aov(time ~ set + group + set:group, data=alltime))
+model <- aov(time ~ set + group, data=alltime)
+TukeyHSD(model)
+re <- TukeyHSD(model)
+plot(re)
+```
+
+accuracy
+
+```{r}
+allaccuracy <- read.csv("all-grade.csv")
+summary(aov(accurate ~ set + group + set:group, data=allaccuracy))
+model <- aov(accurate ~ set + group, data=allaccuracy)
+TukeyHSD(model)
+re <- TukeyHSD(model)
+plot(re)
+```
+
+
